@@ -70,16 +70,13 @@ def metodo_newton(f, x1, e=1e-6):
     f_func = sp.lambdify(x, f(x), 'numpy')
     df_func = sp.lambdify(x, df, 'numpy')
     
-    ite = 0
-    
     while True:
         x0 = x1
         x1 = x0 - f_func(x0) / df_func(x0)
-        ite += 1
+
         if abs(x1-x0) < e:
             break
     
-    print(ite)
     return x1
 
 f = lambda x: x**3 - x - 2
