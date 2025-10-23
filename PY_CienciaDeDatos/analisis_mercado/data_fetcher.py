@@ -6,7 +6,7 @@ load_dotenv()
 
 API_KEY = os.getenv('ALPHA_VANTAGE_API_KEY')
 
-def obtener_datos_acciones(symbol):
+def obtener_datos_accion(symbol):
     url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={symbol}&apikey={API_KEY}'
     
     try:

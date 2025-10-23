@@ -1,12 +1,12 @@
 import pandas as pd
-from data_fetcher import obtener_datos_acciones
+from data_fetcher import obtener_datos_accion
 
 def analisis_datos_accion(symbol):
     
-    data = obtener_datos_acciones(symbol)
+    data = obtener_datos_accion(symbol)
     
     if data is None:
-        print(f"Error: No se obtubieron datos para el analisis, data: {data}")
+        print(f"Error: No se obtuvieron datos para {symbol}")
         return None
     
     df = pd.DataFrame(data).T
@@ -20,9 +20,7 @@ def analisis_datos_accion(symbol):
     }, inplace=True)
     
     df = df.astype(float)
-    
     df.index = pd.to_datetime(df.index)
-    
     df = df.sort_index()
     
     return df
@@ -58,20 +56,20 @@ def mostrar_analisis(df, symbol):
     """
         TODO: Muestra de forma legible el analisis.
     """
-    if df is None or df.empty:
+    if df is None:
         print(f"Error: No hay datos para analizar de {symbol}")
         return
     
     p_max, p_min, vol_prom, cambio = analisis_descriptivo(df)
     
-    ret_diario, ret_acum = calcular_retornos(symbol)
+    ret_diario, ret_acum = calcular_retornos(df)
     
     print(f"\n{'='*50}")
-    print(f"📊 ANÁLISIS DE {symbol}")
+    print(f"ANALISIS DE {symbol}")
     print(f"{'='*50}")
     print(f"Cambio total:      {cambio:+.2f}%")
-    print(f"Precio máximo:     ${p_max:.2f}")
-    print(f"Precio mínimo:     ${p_min:.2f}")
+    print(f"Precio maximo:     ${p_max:.2f}")
+    print(f"Precio minimo:     ${p_min:.2f}")
     print(f"Volumen promedio:  {vol_prom:,.0f}")
     print(f"Volatilidad:       {ret_diario.std():.2f}%")
     print(f"Retorno acumulado: {ret_acum.iloc[-1]:.2f}%")
