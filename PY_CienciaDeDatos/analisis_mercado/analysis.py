@@ -73,3 +73,23 @@ def mostrar_analisis(df, symbol):
     print(f"Volumen promedio:  {vol_prom:,.0f}")
     print(f"Volatilidad:       {ret_diario.std():.2f}%")
     print(f"Retorno acumulado: {ret_acum.iloc[-1]:.2f}%")
+    
+def exportar_a_csv(df, symbol, filename=None):
+    
+    if df is None:
+        print("Error: No hay datos para exportar.")
+        return
+    
+    if filename is None:
+        filename = f"{symbol}_analisis.csv"
+        
+    df_export = df.copy()
+    
+    ret_diario, ret_acum = calcular_retornos(df)
+    
+    df_export['retorno_diario'] = ret_diario
+    df_export['retorno_acumulado'] = ret_acum
+    
+    df_export.to_csv(filename)
+    
+    return filename
